@@ -13,5 +13,4 @@ class Node
   def mark_as_end
     @end_of_word = true
   end
-
 end

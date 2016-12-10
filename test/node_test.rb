@@ -75,7 +75,6 @@ class NodeTest < Minitest::Test
     node_4.links["t"] = node_5
 
     assert_equal({"t" => node_5}, node_1.links["a"].links["c"].links)
-
   end
 
   def test_links_knows_it_does_not_have_a_child
@@ -92,7 +91,6 @@ class NodeTest < Minitest::Test
     node_4.links["t"] = node_5
 
     assert_equal({}, node_1.links["a"].links["c"].links["t"].links)
-
   end
 
   def test_node_is_not_end_of_a_word
