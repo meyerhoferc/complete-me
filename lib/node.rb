@@ -1,10 +1,8 @@
 class Node
-  attr_reader :letter
   attr_accessor :links
 
-  def initialize(letter)
-    @letter = letter
-    @links = Array.new
+  def initialize
+    @links = Hash.new
   end
 
 end
