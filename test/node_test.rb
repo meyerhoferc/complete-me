@@ -95,7 +95,7 @@ class NodeTest < Minitest::Test
 
   end
 
-  def test_node_knows_it_is_end_of_a_word
+  def test_node_is_not_end_of_a_word
     node_1 = Node.new
     node_2 = Node.new
     node_3 = Node.new
@@ -108,13 +108,28 @@ class NodeTest < Minitest::Test
     node_3.links["i"] = node_6
     node_4.links["t"] = node_5
 
-    
-
+    refute node_1.end_of_word?
+    refute node_2.end_of_word?
+    refute node_3.end_of_word?
+    refute node_4.end_of_word?
+    refute node_6.end_of_word?
   end
 
-  def test_node_knows_it_is_not_end_of_word
+  def test_node_can_be_end_of_word
+    node_1 = Node.new
+    node_2 = Node.new
+    node_3 = Node.new
+    node_4 = Node.new
+    node_5 = Node.new
+    node_6 = Node.new
+    node_1.links["a"] = node_2
+    node_1.links["b"] = node_3
+    node_2.links["c"] = node_4
+    node_3.links["i"] = node_6
+    node_4.links["t"] = node_5
 
+    node_5.mark_as_end
+    assert node_5.end_of_word?
   end
-
 
 end
