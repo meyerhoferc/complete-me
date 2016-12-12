@@ -43,10 +43,6 @@ class TrieTest < Minitest::Test
     trie.insert("word")
     last_node = trie.root.links["w"].links["o"].links["r"].links["d"]
     assert_equal "word", last_node.total_word
-
   end
-
-
-
 
 end

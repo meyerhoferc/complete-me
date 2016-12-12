@@ -1,5 +1,6 @@
 require 'pry'
 require './lib/node.rb'
+require './lib/lode.rb'
 
 class Trie
   attr_accessor :root, :count
