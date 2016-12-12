@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/trie.rb'
+require './lib/load.rb'
 
 class TrieTest < Minitest::Test
   def test_trie_has_a_root
@@ -31,18 +32,19 @@ class TrieTest < Minitest::Test
     assert_equal 5, trie.count
   end
 
-  def test_tree_recognizes_end_of_word
-    skip
-    trie = Trie.new
-    trie.insert("word")
-    assert_equal
-  end
-
   def test_leaf_node_returns_full_word
     trie = Trie.new
     trie.insert("word")
     last_node = trie.root.links["w"].links["o"].links["r"].links["d"]
     assert_equal "word", last_node.total_word
+  end
+
+  def test_can_populate_dictionary_from_load
+    trie = Trie.new
+    loader = Load.new
+    words = loader.format_dictionary('/usr/share/dict/words')
+    trie.populate(words)
+    assert_equal 235886, trie.count
   end
 
 end

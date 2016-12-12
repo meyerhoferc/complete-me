@@ -6,7 +6,7 @@ class Load
     # dictionary = opened.read
   end
 
-  def format_dictionary(filename = './lib/test.txt')
+  def format_dictionary(filename)
     dictionary = load_dictionary(filename)
     words = dictionary.split("\n")
   end

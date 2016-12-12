@@ -1,6 +1,6 @@
 require 'pry'
 require './lib/node.rb'
-require './lib/lode.rb'
+require './lib/load.rb'
 
 class Trie
   attr_accessor :root, :count
@@ -35,6 +35,10 @@ class Trie
       current_node.mark_as_end
       current_node.total_word = total_word
     end
+  end
+
+  def populate(words)
+    words.each { |word| insert(word) }
   end
 
 end
