@@ -1,10 +1,11 @@
 
 class Node
-  attr_accessor :links
+  attr_accessor :links, :total_word
 
   def initialize
     @links = Hash.new
     @end_of_word = false
+    @total_word = ""
     # @current_node = nil
   end
 
