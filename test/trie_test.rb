@@ -40,11 +40,37 @@ class TrieTest < Minitest::Test
   end
 
   def test_can_populate_dictionary_from_load
+    skip
     trie = Trie.new
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
     trie.populate(words)
     assert_equal 235886, trie.count
+  end
+
+  def test_find_parent_returns_parent_node
+    trie = Trie.new
+    # trie.insert("pen")
+    # trie.insert("pin")
+    trie.insert("pizza")
+    parent_node = trie.root.links["p"].links["i"]
+    sub_string_letters = ["p", "i"]
+
+    assert_equal parent_node, trie.find_parent(sub_string_letters)
+  end
+
+  def test_suggest_returns_array_of_suggestions
+    skip
+    trie = Trie.new
+    words = ["pen", "pin", "pizza"]
+    trie.populate(words)
+    suggestions = ["pin", "pizza"]
+
+    assert_equal suggestions, trie.suggest("pi")
+  end
+
+  def test_suggset_returns_a_different_array_of_suggestions
+
   end
 
 end

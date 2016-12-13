@@ -41,4 +41,23 @@ class Trie
     words.each { |word| insert(word) }
   end
 
+  def suggest(sub_string)
+    current_node = @root
+    letters = format_word(sub_string)
+    find_parent(letters, current_node)
+  end
+
+  def find_parent(letters, current_node = @root)
+    unless letters.empty?
+      letter = letters.shift
+      if current_node.links.has_key?(letter)
+        next_node = current_node.links[letter]
+        find_parent(letters, next_node)
+      else
+        suggestions = []
+      end
+    end
+    next_node
+  end
+
 end
