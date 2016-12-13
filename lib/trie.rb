@@ -48,16 +48,12 @@ class Trie
   end
 
   def find_parent(letters, current_node = @root)
-    unless letters.empty?
+    if letters.empty?
+      current_node
+    else
       letter = letters.shift
-      if current_node.links.has_key?(letter)
-        next_node = current_node.links[letter]
-        find_parent(letters, next_node)
-      else
-        suggestions = []
-      end
+      find_parent(letters, current_node.links[letter])
     end
-    next_node
   end
 
 end
