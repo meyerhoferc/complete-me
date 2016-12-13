@@ -36,6 +36,7 @@ class TrieTest < Minitest::Test
     trie = Trie.new
     trie.insert("word")
     last_node = trie.root.links["w"].links["o"].links["r"].links["d"]
+
     assert_equal "word", last_node.total_word
   end
 
@@ -45,13 +46,14 @@ class TrieTest < Minitest::Test
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
     trie.populate(words)
+
     assert_equal 235886, trie.count
   end
 
   def test_find_parent_returns_parent_node
     trie = Trie.new
-    # trie.insert("pen")
-    # trie.insert("pin")
+    trie.insert("pen")
+    trie.insert("pin")
     trie.insert("pizza")
     parent_node = trie.root.links["p"].links["i"]
     sub_string_letters = ["p", "i"]
@@ -60,17 +62,23 @@ class TrieTest < Minitest::Test
   end
 
   def test_suggest_returns_array_of_suggestions
-    skip
     trie = Trie.new
     words = ["pen", "pin", "pizza"]
     trie.populate(words)
     suggestions = ["pin", "pizza"]
+    trie.suggest("pi")
 
     assert_equal suggestions, trie.suggest("pi")
   end
 
   def test_suggset_returns_a_different_array_of_suggestions
+    skip
+    trie = Trie.new
+    words = ["cat", "concatenate", "cars", "car"]
+    trie.populate(words)
+    suggestions = ["cat", "car", "cars"]
 
+    assert_equal suggestions, trie.suggest("ca")
   end
 
 end
