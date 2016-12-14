@@ -54,7 +54,7 @@ class Trie
     if letters.empty?
       if current_node.end_of_word?
         @suggestions << current_node.total_word
-        current_node.add_substring_rank(@sub_string_key, 1)
+        current_node.word_suggested(@sub_string_key)
       end
       current_node.links.values
     else
@@ -67,7 +67,7 @@ class Trie
     nodes.each do |node|
       if node.end_of_word?
         @suggestions << node.total_word
-        node.add_substring_rank(@sub_string_key, 1)
+        node.word_suggested(@sub_string_key)
       end
       if node.links.count > 0
         find_all_children(node.links.values)

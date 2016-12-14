@@ -41,7 +41,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_can_populate_dictionary_from_load
-    skip
+    skip 
     trie = Trie.new
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
@@ -114,7 +114,6 @@ class TrieTest < Minitest::Test
   end
 
   def test_selected_word_returns_first_when_suggested
-    skip
     trie = Trie.new
     trie.insert("doge")
     trie.insert("dogecoin")

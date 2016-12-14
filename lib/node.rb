@@ -21,19 +21,29 @@ class Node
     @end_of_word = true
   end
 
-  def selected(sub_string)
-    values = @substring_and_weight[sub_string]
-    values[1] = values[1] + 1
+  def word_selected(sub_string)
+    if @substring_and_weight.has_key?(sub_string)
+      values = @substring_and_weight[sub_string]
+      values[1] = values[1] + 1
+    else
+      @substring_and_weight[sub_string] = [0, 0]
+      word_selected(sub_string)
+    end
   end
 
-  def suggested(sub_string)
-    values = @substring_and_weight[sub_string]
-    values[0] = values[0] + 1
+  def word_suggested(sub_string)
+    if @substring_and_weight.has_key?(sub_string)
+      values = @substring_and_weight[sub_string]
+      values[0] = values[0] + 1
+    else
+      @substring_and_weight[sub_string] = [0, 0]
+      word_suggested(sub_string)
+    end
   end
 
-  def substring_and_weight(sub_string)
-    @substring_and_weight[sub_string] = [0, 0]
-  end
+  # def substring_and_weight(sub_string)
+  #   @substring_and_weight[sub_string] = [0, 0]
+  # end
 
   def times_suggested(sub_string)
     @substring_and_weight[sub_string][0]

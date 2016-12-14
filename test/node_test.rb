@@ -57,17 +57,12 @@ class NodeTest < Minitest::Test
     assert_equal({}, node_1.links["a"].links["c"].links["t"].links)
   end
 
-  def test_node_has_empty_hash_of_substring_and_weight
-    node = Node.new
-    assert node.substring_and_weight("dog")
-  end
-
   def test_node_can_increase_times_suggested_for_substring
     node = Node.new
     node.mark_as_end
-    node.substring_and_weight("bo")
-    node.suggested("bo")
-    node.suggested("bo")
+    node.total_word = "bovine"
+    node.word_suggested("bo")
+    node.word_suggested("bo")
 
     assert_equal 2, node.times_suggested("bo")
   end
@@ -75,12 +70,12 @@ class NodeTest < Minitest::Test
   def test_node_can_increase_times_selected_for_substring
     node = Node.new
     node.mark_as_end
-    node.substring_and_weight("pi")
-    node.suggested("pi")
-    node.suggested("pi")
-    node.suggested("pi")
-    node.selected("pi")
-    node.selected("pi")
+    node.total_word = "pizza"
+    node.word_suggested("pi")
+    node.word_suggested("pi")
+    node.word_suggested("pi")
+    node.word_selected("pi")
+    node.word_selected("pi")
 
     assert_equal 3, node.times_suggested("pi")
     assert_equal 2, node.times_selected("pi")
@@ -89,20 +84,20 @@ class NodeTest < Minitest::Test
   def test_node_hash_holds_weight_for_more_than_one_substring
     node = Node.new
     node.mark_as_end
-    node.substring_and_weight("do")
-    node.substring_and_weight("gus")
-    node.suggested("gus")
-    node.suggested("gus")
-    node.suggested("do")
-    node.selected("gus")
-    node.selected("gus")
+    node.total_word = "gustavo"
+    node.word_suggested("gus")
+    node.word_suggested("gus")
+    node.word_selected("gus")
+    node.word_selected("gus")
+    node.word_suggested("g")
+    node.word_selected("g")
 
     assert_equal 2, node.times_suggested("gus")
-    assert_equal 1, node.times_suggested("do")
+    assert_equal 1, node.times_suggested("g")
     assert_equal 2, node.times_selected("gus")
-    assert_equal 0, node.times_selected("do")
-    assert_equal 1, node.weight("gus")
-    assert_equal 0, node.weight("do")
+    assert_equal 1, node.times_selected("g")
+    assert_equal 1.to_f, node.weight("gus")
+    assert_equal 1.to_f, node.weight("g")
   end
 
 end
