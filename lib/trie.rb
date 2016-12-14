@@ -3,11 +3,12 @@ require './lib/node.rb'
 require './lib/load.rb'
 
 class Trie
-  attr_accessor :root, :count
+  attr_accessor :root, :count, :sub_string_key
   def initialize
     @root = Node.new
     @count = 0
     @suggestions = []
+    @sub_string_key = ""
   end
 
   def format_word(word)
@@ -43,6 +44,7 @@ class Trie
   end
 
   def suggest(sub_string)
+    @sub_string_key = sub_string
     letters = format_word(sub_string)
     find_all_children(find_parent(letters))
     @suggestions # change order using maxby or enum
@@ -52,7 +54,7 @@ class Trie
     if letters.empty?
       if current_node.end_of_word?
         @suggestions << current_node.total_word
-        current_node.suggested
+        current_node.add_substring_rank(@sub_string_key, 1)
       end
       current_node.links.values
     else
@@ -65,7 +67,7 @@ class Trie
     nodes.each do |node|
       if node.end_of_word?
         @suggestions << node.total_word
-        node.suggested
+        node.add_substring_rank(@sub_string_key, 1)
       end
       if node.links.count > 0
         find_all_children(node.links.values)
@@ -74,6 +76,12 @@ class Trie
   end
 
   def select(substring, selection)
+    #identity selection's end node
+    # mark as selected + 1 for this substring in hash
+    # calls suggest which will return weighted order suggestions
+
+    # suggest(substring)
+    @suggestions
   end
 
 end

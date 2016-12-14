@@ -100,7 +100,7 @@ class TrieTest < Minitest::Test
     trie.suggest("dog")
     last_node = trie.root.links["d"].links["o"].links["g"].links["e"]
 
-    assert_equal 4, last_node.times_suggested
+    assert_equal 2, last_node.times_suggested("do")
   end
 
   def test_different_node_marked_as_suggested
@@ -110,10 +110,11 @@ class TrieTest < Minitest::Test
     trie.suggest("wi")
     last_node = trie.root.links["w"].links["i"].links["z"]
 
-    assert_equal 2, last_node.times_suggested
+    assert_equal 2, last_node.times_suggested("wi")
   end
 
-  def test_node_marked_as_selected_from_select_method
+  def test_selected_word_returns_first_when_suggested
+    skip
     trie = Trie.new
     trie.insert("doge")
     trie.insert("dogecoin")
