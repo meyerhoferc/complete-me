@@ -43,46 +43,60 @@ class Trie
   end
 
   def suggest(sub_string)
-    # current_node = @root
     letters = format_word(sub_string)
-    # find_all_children(find_parent(letters, current_node))
     find_all_children(find_parent(letters))
-    # return suggestions
+    @suggestions
   end
 
   def find_parent(letters, current_node = @root)
     if letters.empty?
-      current_node
+      if current_node.end_of_word?
+        @suggestions << current_node.total_word
+      end
+      current_node.links.values
     else
       letter = letters.shift
       find_parent(letters, current_node.links[letter])
     end
   end
 
-  def find_all_children(current_node)
-
-    all_nodes = current_node.links.values
-
-    all_nodes.find_all do |node|
+  def find_all_children(nodes)
+    nodes.each do |node|
       if node.end_of_word?
         @suggestions << node.total_word
-      # else
-      #   find_all_children(current_node.links)
       end
-      check_number_of_links(node)
-    end
-
-  end
-
-  def check_number_of_links(current_node)
-    if current_node.links.count == 1 && current_node.end_of_word? == false
-      current_node = current_node.next_node #make this method
-    else
-      find_all_children(current_node)
+      if node.links.count > 0
+        find_all_children(node.links.values)
+      end
     end
   end
 
-  def next_node(current_node)
-  end 
+
+
+  # def find_all_children(current_node)
+  #   all_nodes = current_node.links.values
+  #   all_nodes.find_all do |node|
+  #     if node.end_of_word?
+  #       @suggestions << node.total_word
+  #     # else
+  #     #   find_all_children(current_node.links)
+  #     end
+  #     if node.links.count > 0
+  #       check_number_of_links(node)
+  #     end
+  #   end
+  # end
+
+  # def check_number_of_links(current_node)
+  #   if current_node.links.count == 1 && current_node.end_of_word? == false
+  #     find_all_children(next_node(current_node))
+  #   else
+  #     find_all_children(current_node)
+  #   end
+  # end
+
+  # def next_node(current_node)
+  #   current_node.links.values.first
+  # end
 
 end

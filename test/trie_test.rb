@@ -41,7 +41,6 @@ class TrieTest < Minitest::Test
   end
 
   def test_can_populate_dictionary_from_load
-    skip
     trie = Trie.new
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
@@ -55,7 +54,7 @@ class TrieTest < Minitest::Test
     trie.insert("pen")
     trie.insert("pin")
     trie.insert("pizza")
-    parent_node = trie.root.links["p"].links["i"]
+    parent_node = trie.root.links["p"].links["i"].links.values
     sub_string_letters = ["p", "i"]
 
     assert_equal parent_node, trie.find_parent(sub_string_letters)
@@ -63,22 +62,32 @@ class TrieTest < Minitest::Test
 
   def test_suggest_returns_array_of_suggestions
     trie = Trie.new
-    words = ["pen", "pin", "pizza"]
-    trie.populate(words)
+    trie.insert("pen")
+    trie.insert("pin")
+    trie.insert("pizza")
     suggestions = ["pin", "pizza"]
-    trie.suggest("pi")
 
     assert_equal suggestions, trie.suggest("pi")
   end
 
   def test_suggset_returns_a_different_array_of_suggestions
-    skip
     trie = Trie.new
     words = ["cat", "concatenate", "cars", "car"]
     trie.populate(words)
     suggestions = ["cat", "car", "cars"]
 
     assert_equal suggestions, trie.suggest("ca")
+  end
+
+  def test_trie_suggests_from_dictionary
+
+    trie = Trie.new
+    loader = Load.new
+    words = loader.format_dictionary('/usr/share/dict/words')
+    trie.populate(words)
+
+    assert_equal 235886, trie.count
+    assert_equal ["doggerel", "doggereler", "doggerelism", "doggerelist", "doggerelize", "doggerelizer"], trie.suggest("doggerel").sort
   end
 
 end
