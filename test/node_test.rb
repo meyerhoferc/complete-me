@@ -57,53 +57,52 @@ class NodeTest < Minitest::Test
     assert_equal({}, node_1.links["a"].links["c"].links["t"].links)
   end
 
-  def test_node_has_empty_hash_of_substring_and_weight_by_default
+  def test_node_has_empty_hash_of_substring_and_weight
     node = Node.new
-    assert node.substring_and_weight
+    assert node.substring_and_weight("dog")
   end
 
   def test_node_can_increase_times_suggested_for_substring
     node = Node.new
     node.mark_as_end
-    node.substring_and_weight["bo"] = [1, 0, 0/1]
+    node.substring_and_weight("bo")
+    node.suggested("bo")
+    node.suggested("bo")
 
-    assert_equal 1, node.substring_and_weight["bo"].first
+    assert_equal 2, node.times_suggested("bo")
   end
 
   def test_node_can_increase_times_selected_for_substring
     node = Node.new
     node.mark_as_end
-    node.add_substring_rank("pi", 2, 2)
+    node.substring_and_weight("pi")
+    node.suggested("pi")
+    node.suggested("pi")
+    node.suggested("pi")
+    node.selected("pi")
+    node.selected("pi")
 
-    assert_equal 2, node.substring_and_weight["pi"][0]
-    assert_equal 2, node.substring_and_weight["pi"][1]
-    assert_equal 1, node.substring_and_weight["pi"][2]
+    assert_equal 3, node.times_suggested("pi")
+    assert_equal 2, node.times_selected("pi")
   end
 
   def test_node_hash_holds_weight_for_more_than_one_substring
     node = Node.new
     node.mark_as_end
-    node.add_substring_rank("do", 2, 0)
-    node.add_substring_rank("gus", 1, 2)
+    node.substring_and_weight("do")
+    node.substring_and_weight("gus")
+    node.suggested("gus")
+    node.suggested("gus")
+    node.suggested("do")
+    node.selected("gus")
+    node.selected("gus")
 
-    assert_equal 2, node.times_suggested("do")
-    assert_equal 0, node.times_selected("do")
-    assert_equal 0, node.weight("do")
-    assert_equal 1, node.times_suggested("gus")
+    assert_equal 2, node.times_suggested("gus")
+    assert_equal 1, node.times_suggested("do")
     assert_equal 2, node.times_selected("gus")
-    assert_equal 2, node.weight("gus")
-  end
-
-  def test_node_has_increases_suggest_and_select_if_key_already_present
-    node = Node.new
-    node.mark_as_end
-    node.add_substring_rank("do", 2, 0)
-    node.add_substring_rank("do", 1, 1)
-
-    assert_equal 3, node.times_suggested("do")
-    assert_equal 1, node.times_selected("do")
-    assert_equal (1/3).to_f, node.weight("do")
-
+    assert_equal 0, node.times_selected("do")
+    assert_equal 1, node.weight("gus")
+    assert_equal 0, node.weight("do")
   end
 
 end
