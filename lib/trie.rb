@@ -45,13 +45,14 @@ class Trie
   def suggest(sub_string)
     letters = format_word(sub_string)
     find_all_children(find_parent(letters))
-    @suggestions
+    @suggestions # change order using maxby or enum
   end
 
   def find_parent(letters, current_node = @root)
     if letters.empty?
       if current_node.end_of_word?
         @suggestions << current_node.total_word
+        current_node.suggested
       end
       current_node.links.values
     else
@@ -64,6 +65,7 @@ class Trie
     nodes.each do |node|
       if node.end_of_word?
         @suggestions << node.total_word
+        node.suggested
       end
       if node.links.count > 0
         find_all_children(node.links.values)
@@ -71,32 +73,7 @@ class Trie
     end
   end
 
-
-
-  # def find_all_children(current_node)
-  #   all_nodes = current_node.links.values
-  #   all_nodes.find_all do |node|
-  #     if node.end_of_word?
-  #       @suggestions << node.total_word
-  #     # else
-  #     #   find_all_children(current_node.links)
-  #     end
-  #     if node.links.count > 0
-  #       check_number_of_links(node)
-  #     end
-  #   end
-  # end
-
-  # def check_number_of_links(current_node)
-  #   if current_node.links.count == 1 && current_node.end_of_word? == false
-  #     find_all_children(next_node(current_node))
-  #   else
-  #     find_all_children(current_node)
-  #   end
-  # end
-
-  # def next_node(current_node)
-  #   current_node.links.values.first
-  # end
+  def select(substring, selection)
+  end
 
 end

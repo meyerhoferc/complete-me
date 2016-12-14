@@ -41,6 +41,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_can_populate_dictionary_from_load
+    skip
     trie = Trie.new
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
@@ -80,7 +81,7 @@ class TrieTest < Minitest::Test
   end
 
   def test_trie_suggests_from_dictionary
-
+    skip
     trie = Trie.new
     loader = Load.new
     words = loader.format_dictionary('/usr/share/dict/words')
@@ -88,6 +89,37 @@ class TrieTest < Minitest::Test
 
     assert_equal 235886, trie.count
     assert_equal ["doggerel", "doggereler", "doggerelism", "doggerelist", "doggerelize", "doggerelizer"], trie.suggest("doggerel").sort
+  end
+
+  def test_node_marked_as_suggested_from_suggest_method
+    trie = Trie.new
+    trie.insert("doge")
+    trie.suggest("do")
+    trie.suggest("do")
+    trie.suggest("d")
+    trie.suggest("dog")
+    last_node = trie.root.links["d"].links["o"].links["g"].links["e"]
+
+    assert_equal 4, last_node.times_suggested
+  end
+
+  def test_different_node_marked_as_suggested
+    trie = Trie.new
+    trie.insert("wiz")
+    trie.suggest("wi")
+    trie.suggest("wi")
+    last_node = trie.root.links["w"].links["i"].links["z"]
+
+    assert_equal 2, last_node.times_suggested
+  end
+
+  def test_node_marked_as_selected_from_select_method
+    trie = Trie.new
+    trie.insert("doge")
+    trie.insert("dogecoin")
+    trie.select("do", "dogecoin")
+
+    assert_equal ["dogecoin", "doge"], trie.suggest("do")
   end
 
 end

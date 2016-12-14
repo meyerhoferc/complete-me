@@ -31,11 +31,16 @@ class NodeTest < Minitest::Test
     assert node_1.links.has_key?("a")
   end
 
-  def test_node_can_find_where_to_insert_letters
-    node_1 = Node.new
-    # node_1.set_letter("a")
-    assert_equal "a", node_1.set_letter("a", node_1).keys.first
+
+  def test_node_weight_nonzero_when_suggested_and_selected
+    node = Node.new
+    node.selected
+    node.suggested
+    assert_equal 1, node.times_selected
+    assert_equal 1, node.times_suggested
+    assert_equal 1, node.weight
   end
+
 
   # def test_links_returns_all_children
   #   node_1 = Node.new
