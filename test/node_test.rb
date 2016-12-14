@@ -1,7 +1,9 @@
+require_relative 'test_helper.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/node.rb'
+
 
 class NodeTest < Minitest::Test
 
