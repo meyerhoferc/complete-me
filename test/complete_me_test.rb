@@ -3,8 +3,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/complete_me.rb'
-# require './lib/load.rb'
-
 
 class CompleteMeTest < Minitest::Test
   def test_cm_has_a_root
@@ -99,7 +97,6 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_suggests_from_dictionary
-    skip
     cm = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     cm.populate(dictionary)
@@ -108,8 +105,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["doggerel", "doggereler", "doggerelism", "doggerelist", "doggerelize", "doggerelizer"], cm.suggest("doggerel").sort
   end
 
-  def test_suggestions_and_selects_from_dictionary
-    skip
+  def test_suggests_and_selects_from_dictionary
     cm = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     cm.populate(dictionary)
@@ -117,28 +113,6 @@ class CompleteMeTest < Minitest::Test
     assert_equal 235886, cm.count
     cm.select("doggerel", "doggerelist")
     assert_equal "doggerelist", cm.suggest("doggerel").first
-  end
-
-  def test_node_marked_as_suggested_from_suggest_method
-    cm = CompleteMe.new
-    cm.insert("doge")
-    cm.suggest("do")
-    cm.suggest("do")
-    cm.suggest("d")
-    cm.suggest("dog")
-    last_node = cm.root.links["d"].links["o"].links["g"].links["e"]
-
-    assert_equal 2, last_node.times_suggested("do")
-  end
-
-  def test_different_node_marked_as_suggested
-    cm = CompleteMe.new
-    cm.insert("wiz")
-    cm.suggest("wi")
-    cm.suggest("wi")
-    last_node = cm.root.links["w"].links["i"].links["z"]
-
-    assert_equal 2, last_node.times_suggested("wi")
   end
 
   def test_selected_word_returns_first_when_suggested

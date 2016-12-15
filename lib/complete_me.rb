@@ -10,7 +10,6 @@ class CompleteMe
     @root = Node.new
     @count = 0
     @suggestions = {}
-    @suggested_words = []
     @sub_string_key = ""
   end
 
@@ -52,7 +51,6 @@ class CompleteMe
     letters = format_word(sub_string)
     find_all_children(find_parent(letters))
     suggested_words(sub_string)
-    @suggested_words
   end
 
   def find_parent(letters, current_node = @root)
@@ -81,13 +79,16 @@ class CompleteMe
   end
 
   def suggested_words(sub_string)
-    sorted_suggestions = @suggestions.sort_by do |node, word|
-      node.weight(sub_string)
+    fewer_suggestions = @suggestions.delete_if do |k, v|
+      k.substring_and_weight.has_key?(sub_string) == false
     end
-    @suggested_words = sorted_suggestions.map do |pair|
+    sorted_suggestions = fewer_suggestions.sort_by do |node, word|
+      node.times_selected(sub_string)
+    end
+    suggested_words = sorted_suggestions.map do |pair|
       pair[1]
     end
-    @suggested_words = @suggested_words.reverse
+    suggested_words = suggested_words.reverse
   end
 
   def select(substring, selection)

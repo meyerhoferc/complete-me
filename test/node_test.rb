@@ -59,19 +59,8 @@ class NodeTest < Minitest::Test
     assert_equal({}, node_1.links["a"].links["c"].links["t"].links)
   end
 
-  def test_node_can_increase_times_suggested_for_substring
-    node = Node.new
-    node.mark_as_end
-    node.total_word = "bovine"
-    node.word_suggested("bo")
-    node.word_suggested("bo")
-
-    assert_equal 2, node.times_suggested("bo")
-  end
-
   def test_node_can_increase_times_selected_for_substring
     node = Node.new
-    node.mark_as_end
     node.total_word = "pizza"
     node.word_suggested("pi")
     node.word_suggested("pi")
@@ -79,27 +68,8 @@ class NodeTest < Minitest::Test
     node.word_selected("pi")
     node.word_selected("pi")
 
-    assert_equal 3, node.times_suggested("pi")
-    assert_equal 2, node.times_selected("pi")
-  end
-
-  def test_node_hash_holds_weight_for_more_than_one_substring
-    node = Node.new
-    node.mark_as_end
-    node.total_word = "gustavo"
-    node.word_suggested("gus")
-    node.word_suggested("gus")
-    node.word_selected("gus")
-    node.word_selected("gus")
-    node.word_suggested("g")
-    node.word_selected("g")
-
-    assert_equal 2, node.times_suggested("gus")
-    assert_equal 1, node.times_suggested("g")
-    assert_equal 2, node.times_selected("gus")
-    assert_equal 1, node.times_selected("g")
-    assert_equal 1.to_f, node.weight("gus")
-    assert_equal 1.to_f, node.weight("g")
+    assert_equal 3, node.substring_and_weight["pi"][0]
+    assert_equal 2, node.substring_and_weight["pi"][1]
   end
 
 end
