@@ -21,8 +21,24 @@ class CompleteMe
     current_node = @root
     total_word = ""
     add_word(letters, current_node, total_word)
-    @count += 1
   end
+
+  # def add_word(letters, current_node, total_word)
+  #   unless letters.empty?
+  #     to_insert = letters.shift
+  #     total_word += to_insert
+  #     if current_node.links.has_key?(to_insert)
+  #       add_word(letters, current_node.links[to_insert], total_word)
+  #     else
+  #       current_node.links[to_insert] = Node.new
+  #       add_word(letters, current_node.links[to_insert], total_word)
+  #     end
+  #   else
+  #     @count += 1
+  #     current_node.mark_as_end
+  #     current_node.total_word = total_word
+  #   end
+  # end
 
   def add_word(letters, current_node, total_word)
     unless letters.empty?
@@ -35,8 +51,14 @@ class CompleteMe
         add_word(letters, current_node.links[to_insert], total_word)
       end
     else
-      current_node.mark_as_end
-      current_node.total_word = total_word
+      if current_node.total_word == total_word
+        current_node.mark_as_end
+        current_node.total_word = total_word
+      else
+        @count += 1
+        current_node.mark_as_end
+        current_node.total_word = total_word
+      end 
     end
   end
 
