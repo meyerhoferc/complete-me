@@ -15,13 +15,13 @@ class CompleteMeTest < Minitest::Test
     assert_equal ["w", "o", "r", "d"], cm.format_word("word")
   end
 
-  def test_trie_inserts_one_word
+  def test_inserts_one_word
     cm = CompleteMe.new
     assert cm.insert("word")
     assert_equal 1, cm.count
   end
 
-  def test_trie_inserts_multiple_words
+  def test_inserts_multiple_words
     cm = CompleteMe.new
     cm.insert("word")
     cm.insert("dogs")
@@ -35,6 +35,7 @@ class CompleteMeTest < Minitest::Test
   def test_inserts_multiple_words
     cm = CompleteMe.new
     cm.populate("pizza\ndog\ncat")
+
     assert_equal 3, cm.count
   end
 
@@ -46,7 +47,7 @@ class CompleteMeTest < Minitest::Test
     assert_equal "word", last_node.total_word
   end
 
-  def test_can_populate_dictionary_from_load
+  def test_can_populate_dictionary
     cm = CompleteMe.new
     dictionary = File.read("/usr/share/dict/words")
     cm.populate(dictionary)
@@ -88,6 +89,7 @@ class CompleteMeTest < Minitest::Test
     cm = CompleteMe.new
     words = "pizza\naardvark\nzombies\na\nxylophones"
     cm.populate(words)
+
     assert_equal 5, cm.count
     assert_equal ["pizza"], cm.suggest("p")
     assert_equal ["pizza"], cm.suggest("piz")

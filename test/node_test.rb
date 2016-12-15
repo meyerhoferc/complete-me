@@ -24,7 +24,7 @@ class NodeTest < Minitest::Test
     assert_equal({"a" => node_2}, node_1.links)
   end
 
-  def test_key_returns_node
+  def test_node_has_key
     node_1 = Node.new
     node_2 = Node.new
     node_1.links = {"a" => node_2}
