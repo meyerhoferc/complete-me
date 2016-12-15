@@ -1,4 +1,4 @@
-require_relative 'test_helper.rb'
+require './test/test_helper.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
@@ -123,5 +123,4 @@ class CompleteMeTest < Minitest::Test
 
     assert_equal "dogecoin", cm.suggest("do").first
   end
-
 end

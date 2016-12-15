@@ -2,7 +2,6 @@ require 'pry'
 require './lib/node.rb'
 
 class CompleteMe
-
   attr_accessor :root, :count, :sub_string_key
   dictionary = File.read("/usr/share/dict/words")
 
@@ -95,5 +94,4 @@ class CompleteMe
     suggest(substring)
     @suggestions.key(selection).word_selected(substring)
   end
-
 end

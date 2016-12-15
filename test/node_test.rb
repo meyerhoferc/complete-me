@@ -1,4 +1,4 @@
-require_relative 'test_helper.rb'
+require './test/test_helper.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
@@ -6,7 +6,6 @@ require './lib/node.rb'
 
 
 class NodeTest < Minitest::Test
-
   def test_node_exists
     node = Node.new
     assert_equal Node, node.class
@@ -71,5 +70,4 @@ class NodeTest < Minitest::Test
     assert_equal 3, node.substring_and_weight["pi"][0]
     assert_equal 2, node.substring_and_weight["pi"][1]
   end
-
 end

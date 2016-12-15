@@ -46,5 +46,4 @@ class Node
       0
     end
   end
-
 end

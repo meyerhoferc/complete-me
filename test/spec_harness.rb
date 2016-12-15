@@ -1,3 +1,4 @@
+require './test/test_helper.rb'
 require "minitest"
 require "minitest/autorun"
 require 'minitest/pride'
@@ -38,19 +39,16 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_inserts_medium_dataset
-    skip
     cm.populate(medium_word_list)
     assert_equal medium_word_list.split("\n").count, cm.count
   end
 
   def test_suggests_off_of_medium_dataset
-    skip
     cm.populate(medium_word_list)
     assert_equal ["williwaw", "wizardly"], cm.suggest("wi").sort
   end
 
   def test_selects_off_of_medium_dataset
-    skip
     cm.populate(medium_word_list)
     cm.select("wi", "wizardly")
     assert_equal ["wizardly", "williwaw"], cm.suggest("wi")
